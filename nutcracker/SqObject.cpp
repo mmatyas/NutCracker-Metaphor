@@ -29,6 +29,9 @@ void PrintEscapedString(wostream& out, const LString& str)
 void SqObject::Load( BinaryReader& reader )
 {
 	SQObjectType type = (SQObjectType)reader.ReadInt32();
+	if (type == 0) {
+		type = (SQObjectType)reader.ReadInt32();
+	}
 	switch(type)
 	{
 		default:

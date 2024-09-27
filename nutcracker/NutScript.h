@@ -35,33 +35,33 @@ private:
 	struct LocalVarInfo
 	{
 		LString name;
-		int start_op;
-		int end_op;
-		int pos;
+		uint64_t start_op;
+		uint64_t end_op;
+		uint64_t pos;
 		bool foreachLoopState;
 	};
 	typedef std::vector<LocalVarInfo> LocalVarInfos;
 
 	struct LineInfo
 	{
-		int line;
-		int op;
+		uint64_t line;
+		uint64_t op;
 	};
 
 	int m_FunctionIndex;
 	LString m_SourceName;
 	LString m_Name;
 
-	int m_StackSize;
+	uint64_t m_StackSize;
 	bool m_IsGenerator;
-	int m_VarParams;
+	uint64_t m_VarParams;
 
 	std::vector<SqObject> m_Literals;
 	std::vector<LString> m_Parameters;
 	std::vector<OuterValueInfo> m_OuterValues;
 	LocalVarInfos m_Locals;
 	std::vector<LineInfo> m_LineInfos;
-	std::vector<int> m_DefaultParams;
+	std::vector<uint64_t> m_DefaultParams;
 	std::vector<Instruction> m_Instructions;
 	std::vector<NutFunction> m_Functions;
 

@@ -857,7 +857,7 @@ void NutFunction::DecompileStatement( VMState& state ) const
 			{
 				shared_ptr<FunctionGeneratingExpression> func = shared_ptr<FunctionGeneratingExpression>(new FunctionGeneratingExpression(arg1, m_Functions[arg1]));
 
-				for( vector<int>::const_iterator i = m_Functions[arg1].m_DefaultParams.begin(); i != m_Functions[arg1].m_DefaultParams.end(); ++i)
+				for( vector<uint64_t>::const_iterator i = m_Functions[arg1].m_DefaultParams.begin(); i != m_Functions[arg1].m_DefaultParams.end(); ++i)
 					func->AddDefault(state.GetVar(*i));
 
 				state.SetVar(arg0, func);
@@ -1930,7 +1930,7 @@ void NutFunction::GenerateBodySource( int n, std::wostream& out ) const
 	if (g_DebugMode)
 	{
 		out << indent(n) << "// Defaults:" << std::endl;
-		for( std::vector<int>::const_iterator i = m_DefaultParams.begin(); i != m_DefaultParams.end(); ++i)
+		for( std::vector<uint64_t>::const_iterator i = m_DefaultParams.begin(); i != m_DefaultParams.end(); ++i)
 			out << indent(n) << "//\t" << *i << std::endl;
 		
 		out << std::endl;

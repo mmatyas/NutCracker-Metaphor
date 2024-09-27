@@ -46,8 +46,12 @@ struct expression_out
 
 	friend std::wostream& operator<< ( std::wostream& out, const expression_out& e )
 	{
-		e.m_expr->GenerateCode(out, e.m_indent);
+		if (e.m_expr) {
+			e.m_expr->GenerateCode(out, e.m_indent);
+			
+		}
 		return out;
+		
 	}
 };
 

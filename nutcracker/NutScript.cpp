@@ -67,14 +67,14 @@ void NutFunction::Load( BinaryReader& reader )
 
 	reader.ConfirmOnPart();
 	
-	int nLiterals = reader.ReadInt32();
-	int nParameters = reader.ReadInt32();
-	int nOuterValues = reader.ReadInt32();
-	int nLocalVarInfos = reader.ReadInt32();
-	int nLineInfos = reader.ReadInt32();
-	int nDefaultParams = reader.ReadInt32();
-	int nInstructions = reader.ReadInt32();
-	int nFunctions = reader.ReadInt32();
+	uint64_t nLiterals = reader.ReadInt64();
+	uint64_t nParameters = reader.ReadInt64();
+	uint64_t nOuterValues = reader.ReadInt64();
+	uint64_t nLocalVarInfos = reader.ReadInt64();
+	uint64_t nLineInfos = reader.ReadInt64();
+	uint64_t nDefaultParams = reader.ReadInt64();
+	uint64_t nInstructions = reader.ReadInt64();
+	uint64_t nFunctions = reader.ReadInt64();
 	
 	reader.ConfirmOnPart();
 
@@ -104,9 +104,9 @@ void NutFunction::Load( BinaryReader& reader )
 	for(int i = 0; i < nLocalVarInfos; ++i)
 	{
 		reader.ReadSQStringObject(m_Locals[i].name);
-		m_Locals[i].pos = reader.ReadInt32();
-		m_Locals[i].start_op = reader.ReadInt32();
-		m_Locals[i].end_op = reader.ReadInt32();
+		m_Locals[i].pos = reader.ReadInt64();
+		m_Locals[i].start_op = reader.ReadInt64();
+		m_Locals[i].end_op = reader.ReadInt64();
 		m_Locals[i].foreachLoopState = false;
 	}
 
@@ -140,9 +140,9 @@ void NutFunction::Load( BinaryReader& reader )
 		m_Functions[i].SetIndex(i);
 	}
 
-	m_StackSize = reader.ReadInt32();
+	m_StackSize = reader.ReadInt64();
 	m_IsGenerator = reader.ReadBool();
-	m_VarParams = reader.ReadInt32();
+	m_VarParams = reader.ReadInt64();
 
 	// Mark foreach statement local variables 
 	// sq v3.0.7 will push either three or two local variables for every foreach loop.
@@ -208,14 +208,21 @@ void NutScript::LoadFromStream( LFile& in )
 	if (reader.ReadInt32() != 'SQIR') 
 		throw BadFormatError();
 
-	if (reader.ReadInt32() != sizeof(char))
-		throw Error("NUT file compiled for different size of char that expected.");
+	//reader.ReadInt32();
 
-	if (reader.ReadInt32() != sizeof(int))
-		throw Error("NUT file compiled for different size of char that expected.");
+	if (reader.ReadInt32() != sizeof(char))
+		throw Error("NUT file compiled for different size of char that expected. 1");
+
+	//int test = reader.ReadInt32();
+	//int sizeofint = sizeof(int);
+	//int test2 = reader.ReadInt32();
+	//int sizeofint64 = sizeof(uint64_t);
+
+	if (reader.ReadInt32() != sizeof(uint64_t))
+		throw Error("NUT file compiled for different size of char that expected. 2");
 
 	if (reader.ReadInt32() != sizeof(float))
-		throw Error("NUT file compiled for different size of char that expected.");
+		throw Error("NUT file compiled for different size of char that expected. 3");
 
 	m_main.Load(reader);
 

@@ -26,6 +26,7 @@ public:
 	// ******************************************************************************
 	unsigned int	ReadUInt32( void ){ return ReadValue<unsigned int>(); }
 	int				ReadInt32( void ){ return ReadValue<int>(); }
+	uint64_t			ReadInt64(void) { return ReadValueInt64(); }
 	unsigned short	ReadUInt16( void ){ return ReadValue<unsigned short>(); }
 	short int		ReadInt16( void ){ return ReadValue<short int>(); }
 	char			ReadByte( void ){ return ReadValue<char>(); }
@@ -43,8 +44,15 @@ public:
 		return value;
 	}
 
+	uint64_t ReadValueInt64() {
+		uint64_t value;
+		Read((char*)&value, sizeof(uint64_t));
+
+		return value;
+	}
+
 	// ******************************************************************************
-	void Read( void* buffer, int size, bool bString = false )
+	void Read( void* buffer, uint64_t size, bool bString = false )
 	{
 		if (size < 1)
 			return;
@@ -62,8 +70,13 @@ public:
 	// ******************************************************************************
 	void ConfirmOnPart( void )
 	{
-		if (ReadInt32() != 'PART')
-			throw Error("Bad format of source binary file (PART marker was not match).");
+		int confirm = ReadInt32();
+		if (confirm != 'PART') {
+			if (ReadInt32() != 'PART') {
+				throw Error("Bad format of source binary file (TRAP marker was not match).");
+			}
+			
+		}
 	}
 
 
@@ -71,7 +84,7 @@ public:
 	void ReadSQString(LString& str)
 	{
 		static std::vector<char> buf;
-		int len = ReadInt32();
+		uint64_t len = ReadInt64();
 		if (len < 0)
 			len = 0;
 		if (buf.size() < (size_t)len)
@@ -94,6 +107,7 @@ public:
 			str.clear();
 		else
 			throw Error("Expected string object not found in source binary file.");
+			
 	}
 
 	static void SetReaderHook(ReaderHooker fn, void* obj)

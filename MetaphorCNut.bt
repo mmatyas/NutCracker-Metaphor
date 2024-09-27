@@ -64,7 +64,7 @@ typedef struct tagSQObject
 	SQObjectType _type;
     if (OT_STRING == _type)
     {
-        int len;
+        int64 len;
         if (len)
             char str[len];
     }
@@ -213,15 +213,15 @@ struct OuterValueInfo
 struct LocalVarInfo
 {
 	SQObject name;
-    int pos;
-	int start_op;
-	int end_op;
+    int64 pos;
+	int64 start_op;
+	int64 end_op;
 };
 
 struct LineInfo
 {
-	int line;
-	int op;
+	int64 line;
+	int64 op;
 };
 
 typedef struct tagInstruction
@@ -286,7 +286,7 @@ struct LineInfos (int size)
 };
 struct DefaultParams (int size)
 {
-    int m_DefaultParams[nDefaultParams] <optimize=false>;
+    int64 m_DefaultParams[nDefaultParams] <optimize=false>;
 };
 struct Instructions (int size)
 {
@@ -302,14 +302,14 @@ typedef struct tagNutFunction
     SQObject m_Name;
 
     if (!ConfirmOnPart()) return -1;
-    int nLiterals;
-    int nParameters;
-    int nOuterValues;
-    int nLocalVarInfos;
-    int nLineInfos;
-    int nDefaultParams;
-    int nInstructions;
-    int nFunctions;
+    int64 nLiterals;
+    int64 nParameters;
+    int64 nOuterValues;
+    int64 nLocalVarInfos;
+    int64 nLineInfos;
+    int64 nDefaultParams;
+    int64 nInstructions;
+    int64 nFunctions;
 
     if (!ConfirmOnPart()) return -1;
     if (nLiterals)
@@ -343,9 +343,9 @@ typedef struct tagNutFunction
     if (nFunctions)
         allocFunctions(nFunctions);
 
-    int m_StackSize;
+    int64 m_StackSize;
     char m_IsGenerator;
-    int m_VarParams;
+    int64 m_VarParams;
 } NutFunction <read=ReadNutFunction>;
 
 struct NutFunctions (int size)

@@ -194,9 +194,13 @@ public:
 				if (prevStatement)
 					out << std::endl;
 
-				statement->GenerateCode(out, std::max(0, n - 1));
-				pendingSpace = false;
-				prevStatement = StatementPtr();
+				if (*i) {
+					statement->GenerateCode(out, std::max(0, n - 1));
+					pendingSpace = false;
+					prevStatement = StatementPtr();
+				}
+
+				
 				continue;
 			}
 
@@ -305,11 +309,11 @@ class LocalVarInitStatement : public Statement
 private:
 	LString m_Name;
 	ExpressionPtr m_Initialization;
-	int m_StackAddress;
-	int m_StartAddress, m_EndAddress;
+	uint64_t m_StackAddress;
+	uint64_t m_StartAddress, m_EndAddress;
 
 public:
-	explicit LocalVarInitStatement(const LString& name, int stackAddress, int startAddress, int endAddress, ExpressionPtr init = ExpressionPtr())
+	explicit LocalVarInitStatement(const LString& name, uint64_t stackAddress, uint64_t startAddress, uint64_t endAddress, ExpressionPtr init = ExpressionPtr())
 	{
 		m_Name = name;
 		m_StackAddress = stackAddress;
@@ -338,9 +342,9 @@ public:
 		return m_Name;
 	}
 
-	int GetStackAddress( void ) const		{ return m_StackAddress;	}
-	int GetStartAddress( void ) const		{ return m_StartAddress;	}
-	int GetEndAddress( void ) const			{ return m_EndAddress;		}
+	uint64_t GetStackAddress( void ) const		{ return m_StackAddress;	}
+	uint64_t GetStartAddress( void ) const		{ return m_StartAddress;	}
+	uint64_t GetEndAddress( void ) const			{ return m_EndAddress;		}
 };
 
 // *******************************************************************************************

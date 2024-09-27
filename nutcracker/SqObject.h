@@ -10,7 +10,7 @@ private:
 
 	union
 	{
-		unsigned int m_integer;
+		uint64_t m_integer;
 		float m_float;
 	};
 
