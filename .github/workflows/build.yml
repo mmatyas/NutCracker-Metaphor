@@ -1,0 +1,22 @@
+on: [push, pull_request, workflow_dispatch]
+
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Clone
+        uses: actions/checkout@v4
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build app for release
+        run: msbuild nutcracker.sln -t:rebuild -verbosity:diag -property:Configuration=Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: nutcracker.exe
