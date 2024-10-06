@@ -13,7 +13,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Build app for release
-        run: msbuild nutcracker.sln -t:rebuild -verbosity:diag -property:Configuration=Release
+        run: msbuild nutcracker.sln -t:rebuild -property:Configuration=Release
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
