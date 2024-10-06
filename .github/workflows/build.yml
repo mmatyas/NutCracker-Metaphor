@@ -19,4 +19,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: nutcracker.exe
+          path: Release/nutcracker.exe
